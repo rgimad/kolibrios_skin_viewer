@@ -1,0 +1,43 @@
+<html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KolibriOS skin viewer</title>
+  </head>
+  <body>
+    <input type="file" id="file-input">
+    <button onclick="readSkin()">Read Skin</button>
+    <script>
+        function readSkin() {
+            const file = document.getElementById('file-input').files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                let skinBytes = e.target.result;
+                let skinData = new DataView(skinBytes);
+                let skinObj = new Object();
+                // alert(String.fromCharCode(skinData.getUint8(0)));
+                skinObj.magic = "";
+                for (let i = 0; i < 4; i++)
+                skinObj.magic += String.fromCharCode(skinData.getUint8(i));
+                // alert(magic);     
+                skinObj.version = skinData.getUint32(4, true); // second param - little endian
+                
+                let params = skinData.getUint32(8, true),
+                    buttons = skinData.getUint32(12, true),
+                    bitmaps = skinData.getUint32(16, true);
+
+                // alert(params + " " + buttons + " " + bitmaps)
+
+                skinObj.margin = new Object();
+                skinObj.margin.right = skinData.getUint16(params + 4, true);
+                skinObj.margin.left = skinData.getUint16(params + 6, true);
+                skinObj.margin.bottom = skinData.getUint16(params + 8, true);
+                skinObj.margin.top = skinData.getUint16(params + 10, true);
+
+                alert(JSON.stringify(skinObj))
+            }
+            reader.readAsArrayBuffer(file);
+        }
+    </script>
+  </body>
+</html>
