@@ -34,17 +34,32 @@
                 skinObj.margin.bottom = skinData.getUint16(params + 8, true);
                 skinObj.margin.top = skinData.getUint16(params + 10, true);
 
-                H6 = function(x) {return (x & 0x00FFFFFF).toString(16)}
+                H6 = function(x) {return (x & 0x00FFFFFF).toString(16)};
 
-                skinObj.active = new Object()
+                skinObj.active = new Object();
                 skinObj.active.inner = H6(skinData.getUint32(params + 12, true));
                 skinObj.active.outer = H6(skinData.getUint32(params + 16, true));
                 skinObj.active.frame = H6(skinData.getUint32(params + 20, true));
 
-                skinObj.inactive = new Object()
+                skinObj.inactive = new Object();
                 skinObj.inactive.inner = H6(skinData.getUint32(params + 24, true));
                 skinObj.inactive.outer = H6(skinData.getUint32(params + 28, true));
                 skinObj.inactive.frame = H6(skinData.getUint32(params + 32, true));
+
+                skinObj.dtp = new Object();
+                skinObj.dtp.size = skinData.getUint32(params + 36, true);
+                skinObj.dtp.taskbar = H6(skinData.getUint32(params + 40, true));
+                skinObj.dtp.taskbar_text = H6(skinData.getUint32(params + 44, true));
+                skinObj.dtp.work_dark = H6(skinData.getUint32(params + 48, true));
+                skinObj.dtp.work_light = H6(skinData.getUint32(params + 52, true));
+                skinObj.dtp.window_title = H6(skinData.getUint32(params + 56, true));
+                skinObj.dtp.work = H6(skinData.getUint32(params + 60, true));
+                skinObj.dtp.work_button = H6(skinData.getUint32(params + 64, true));
+                skinObj.dtp.work_button_text = H6(skinData.getUint32(params + 68, true));
+                skinObj.dtp.work_text = H6(skinData.getUint32(params + 72, true));
+                skinObj.dtp.work_graph = H6(skinData.getUint32(params + 76, true));
+
+
 
 
                 alert(JSON.stringify(skinObj))
