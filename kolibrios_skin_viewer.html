@@ -36,11 +36,11 @@
         }
         .window .panel .close {
             position: absolute;
-            border: 1px dotted red;
+            /* border: 1px dotted red; */
         }
         .window .panel .min {
             position: absolute;
-            border: 1px dotted red;
+            /* border: 1px dotted red; */
         }
 
         .window .panel .title {
@@ -67,20 +67,28 @@
         select {
             padding: 5px;
         }
+        button {
+            font-family: monospace;
+            font-size: 18px;
+        }
+        #file-input {
+            font-family: monospace;
+            font-size: 16px;
+        }
     </style>
   </head>
   <body>
     <center>
         <br><br>
         <input type="file" id="file-input">
-        <button onclick="readSkin()">Read Skin</button>
+        <button onclick="readSkin()">View!</button>
     </center>
     <br>
     <div class="block">
         <div class="window active">
             <div class="panel">
                 <div class="left"></div>
-                <div class="title">Активное окно</div>
+                <div class="title">Active window</div>
                 <div class="button"></div>
                 <div class="close"></div>
                 <div class="min"></div>
@@ -94,7 +102,7 @@
         <div class="window inactive">
             <div class="panel">
                 <div class="left"></div>
-                <div class="title">Неактивное окно</div>
+                <div class="title">Inactive window</div>
                 <div class="button"></div>
                 <div class="close"></div>
                 <div class="min"></div>
@@ -109,7 +117,6 @@
 
     <script>
         function htmlColor(color) {
-            // return '#'+color.substr(4,2)+color.substr(2,2)+color.substr(0,2)
             return "#" + color;
         }
 
@@ -197,10 +204,6 @@
             }
 
         }
-
-
-
-
 
 
 
