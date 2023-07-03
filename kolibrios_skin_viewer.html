@@ -67,7 +67,7 @@
 
                 skinObj.button = [];
                 let pos = buttons;
-                while (skinData.getUint32(pos, true) != 0){
+                while (skinData.getUint32(pos, true) != 0) {
                     let btn = new Object();
                     btn.type = skinData.getUint32(pos, true);
                     btn.left = skinData.getInt16(pos + 4, true);
@@ -76,6 +76,43 @@
                     btn.height = skinData.getUint16(pos + 10, true);
                     skinObj.button.push(btn);
                     pos += 12;
+                }
+
+                skinObj.bitmap = [];
+                pos = bitmaps;
+                while (skinData.getUint32(pos, true) != 0) {
+                    let bmp = new Object();
+                    bmp.kind = skinData.getUint16(pos, true);
+                    bmp.type = skinData.getUint16(pos + 2, true);
+                    let posbm = skinData.getUint32(pos + 4, true);
+                    bmp.width = skinData.getUint32(posbm, true);
+                    bmp.height = skinData.getUint32(posbm + 4, true);
+                    let size = bmp.width*bmp.height*3;
+
+                    let canvas = document.createElement("canvas");
+                    canvas.width = bmp.width;
+                    canvas.height = bmp.height;
+                    let ctx = canvas.getContext("2d");
+                    let canvasData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+                    for (let y = 0; y < bmp.height; y++) {
+                        for (let x = 0; x < bmp.width; x++) {
+                            let i = (x + y*bmp.width)*3;
+                            let bb = skinData.getUint8(posbm + 8 + i);
+                            let gg = skinData.getUint8(posbm + 8 + i + 1);
+                            let rr = skinData.getUint8(posbm + 8 + i + 2);
+
+                            i = (x + y*canvas.width)*4;
+                            canvasData.data[i + 0] = rr;
+                            canvasData.data[i + 1] = gg;
+                            canvasData.data[i + 2] = bb;
+                            canvasData.data[i + 3] = 255;
+                        }
+                    }
+                    bmp.base64 = canvas.toDataURL();
+
+                    skinObj.bitmap.push(bmp);
+                    pos += 8;                    
                 }
 
 
