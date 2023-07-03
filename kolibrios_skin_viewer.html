@@ -65,7 +65,18 @@
                 skinObj.dtp.work_text = H6(skinData.getUint32(params + 72, true));
                 skinObj.dtp.work_graph = H6(skinData.getUint32(params + 76, true));
 
-
+                skinObj.button = [];
+                let pos = buttons;
+                while (skinData.getUint32(pos, true) != 0){
+                    let btn = new Object();
+                    btn.type = skinData.getUint32(pos, true);
+                    btn.left = skinData.getInt16(pos + 4, true);
+                    btn.top = skinData.getInt16(pos + 6, true);
+                    btn.width = skinData.getUint16(pos + 8, true);
+                    btn.height = skinData.getUint16(pos + 10, true);
+                    skinObj.button.push(btn);
+                    pos += 12;
+                }
 
 
                 alert(JSON.stringify(skinObj))
