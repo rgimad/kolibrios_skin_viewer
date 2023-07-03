@@ -41,6 +41,11 @@
                 skinObj.active.outer = H6(skinData.getUint32(params + 16, true));
                 skinObj.active.frame = H6(skinData.getUint32(params + 20, true));
 
+                skinObj.inactive = new Object()
+                skinObj.inactive.inner = H6(skinData.getUint32(params + 24, true));
+                skinObj.inactive.outer = H6(skinData.getUint32(params + 28, true));
+                skinObj.inactive.frame = H6(skinData.getUint32(params + 32, true));
+
 
                 alert(JSON.stringify(skinObj))
             }
