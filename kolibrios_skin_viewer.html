@@ -34,6 +34,14 @@
                 skinObj.margin.bottom = skinData.getUint16(params + 8, true);
                 skinObj.margin.top = skinData.getUint16(params + 10, true);
 
+                H6 = function(x) {return (x & 0x00FFFFFF).toString(16)}
+
+                skinObj.active = new Object()
+                skinObj.active.inner = H6(skinData.getUint32(params + 12, true));
+                skinObj.active.outer = H6(skinData.getUint32(params + 16, true));
+                skinObj.active.frame = H6(skinData.getUint32(params + 20, true));
+
+
                 alert(JSON.stringify(skinObj))
             }
             reader.readAsArrayBuffer(file);
