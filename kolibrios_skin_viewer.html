@@ -142,17 +142,17 @@
                 let left = element.querySelector('.left');
                 let title = element.querySelector('.title');
                 if (item.kind === 3) {
-                    panel.style.backgroundImage = "url(data:image/png;base64,"+item.base64+')';
+                    panel.style.backgroundImage = "url("+item.base64+')';
                     panel.style.height = item.height+'px';
                 }
                 else if (item.kind === 2) {
-                    button.style.backgroundImage = "url(data:image/png;base64,"+item.base64+')';
+                    button.style.backgroundImage = "url("+item.base64+')';
                     button.style.height = item.height+'px';
                     button.style.width = item.width+'px';
                     button.style.right = '-1px';
                 }
                 else if (item.kind === 1) {
-                    left.style.backgroundImage = "url(data:image/png;base64,"+item.base64+')';
+                    left.style.backgroundImage = "url("+item.base64+')';
                     left.style.height = item.height+'px';
                     left.style.width = item.width+'px';
                     left.style.left = '-1px';
@@ -306,6 +306,7 @@
                             canvasData.data[i + 3] = 255;
                         }
                     }
+                    ctx.putImageData(canvasData, 0, 0);
                     bmp.base64 = canvas.toDataURL();
 
                     skinObj.bitmap.push(bmp);
