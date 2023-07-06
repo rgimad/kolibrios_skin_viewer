@@ -111,6 +111,8 @@
         </div>
     </div>
 
+    <script src="js/lzma-d.js"></script>
+    <script src="js/unpack.js"></script>
     <script>
         function htmlColor(color) {
             return "#" + color;
@@ -161,7 +163,6 @@
                     left.style.left = '-1px';
                     //title.style.left = (item.width-1)+'px';
                 }
-
             }
 
             for (let i=0; i<structure.button.length; i++) {
@@ -183,7 +184,6 @@
                     active_close.style.height = inactive_close.style.height = item.height+'px';
                     active_close.style.width = inactive_close.style.width = item.width+'px';
                 }
-
             }
 
             var guibutton = document.querySelectorAll('.window button');
@@ -198,24 +198,35 @@
                 let item = guitext[i];
                 item.style.color = htmlColor(structure.dtp.work_text);
             }
-
         }
 
-
-
-
         function readSkin() {
+            const SKIN_MAGIC  = 0x4E494B53 // 'SKIN'
+            const KPACK_MAGIC = 0x4B43504B // 'KPACK'
+
             const file = document.getElementById('file-input').files[0];
             const reader = new FileReader();
             reader.onload = function(e) {
                 let skinBytes = e.target.result;
                 let skinData = new DataView(skinBytes);
                 let skinObj = new Object();
-                // alert(String.fromCharCode(skinData.getUint8(0)));
-                skinObj.magic = "";
-                for (let i = 0; i < 4; i++)
-                skinObj.magic += String.fromCharCode(skinData.getUint8(i));
-                // alert(magic);     
+
+                magic = skinData.getUint32(0, true);
+                if (magic == KPACK_MAGIC) {
+                    try {
+                        skinData = unpack(skinData);
+                    } catch (e) {
+                        alert('Unpacking error: ' + e);
+                        return;
+                    }
+                }
+
+                magic = skinData.getUint32(0, true);
+                if (magic != SKIN_MAGIC) {
+                    alert('The uploaded file is not a skin!');
+                    return;
+                }
+
                 skinObj.version = skinData.getUint32(4, true); // second param - little endian
                 
                 let params = skinData.getUint32(8, true),
@@ -312,7 +323,6 @@
                     pos += 8;                    
                 }
 
-
                 // alert(JSON.stringify(skinObj));
 
                 loadStructureTheme(skinObj);
@@ -320,7 +330,6 @@
                 for (let i=0; i<list.length; i++) {
                     list[i].style.display = 'block';
                 }
-
             }
             reader.readAsArrayBuffer(file);
         }
